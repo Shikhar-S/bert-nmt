@@ -24,7 +24,6 @@ def split_data(args):
 
 def tokenize(args,lang):
     print(f'tokenizing {lang}')
-
     tokenizer=BertTokenizer.from_pretrained(args.bert_model)
     with open(args.output_dir+'/raw.'+lang,'r') as f_in,open(args.output_dir+'/tkn.'+lang,'w') as f_out:
         for line in f_in:
@@ -32,5 +31,5 @@ def tokenize(args,lang):
 
 split_data(args)
 
-tokenize(args,args.src_lang)
-tokenize(args,args.tgt_lang)
+# tokenize(args,args.src_lang)
+# tokenize(args,args.tgt_lang)
