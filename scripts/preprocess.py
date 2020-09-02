@@ -15,12 +15,25 @@ def split_data(args):
     with open(args.input_file,'r') as f:
         json_data=json.load(f)
     
-    with open(args.output_dir+'/raw.'+args.src_lang,'w') as raw_src,open(args.output_dir+'/raw.'+args.tgt_lang,'w') as raw_tgt:
+    with open(args.output_dir+'/train.'+args.src_lang,'w') as train_src,open(args.output_dir+'/train.'+args.tgt_lang,'w') as train_tgt,open(args.output_dir+'/test.'+args.src_lang,'w') as test_src,open(args.output_dir+'/test.'+args.tgt_lang,'w') as test_tgt,open(args.output_dir+'/valid.'+args.src_lang,'w') as valid_src,open(args.output_dir+'/valid.'+args.tgt_lang,'w') as valid_tgt:
+        i=0
         for key in json_data.keys():
+            i+=1
             invocation = json_data[key]['invocation']
             cmd = json_data[key]['cmd']
-            print(invocation,file=raw_src)
-            print(cmd,file=raw_tgt)
+            if i%10==0:
+                if i%20==0:
+                    output_file_src=valid_src
+                    output_file_tgt=valid_tgt
+                else:
+                    output_file_src=test_src
+                    output_file_tgt=test_tgt
+            else:
+                output_file_src=train_src
+                output_file_tgt=train_tgt
+            
+            print(invocation,file=output_file_src)
+            print(cmd,file=output_file_tgt)
 
 def tokenize(args,lang):
     print(f'tokenizing {lang}')
